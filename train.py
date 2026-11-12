@@ -13,14 +13,14 @@ def load_data(filepath='data.csv'):
 					mileages.append(float(row[0]))
 					prices.append(float(row[1]))
 	except FileNotFoundError:
-		print(f"Erreur : le fichier '{filepath}' est introuvable.")
+		print(f"Error: File '{filepath}' not found.")
 		sys.exit(1)
 	except Exception as e:
-		print(f"Erreur lors de la lecture de '{filepath}' : {e}")
+		print(f"Error reading '{filepath}': {e}")
 		sys.exit(1)
 
 	if not mileages:
-		print("Erreur : le dataset est vide.")
+		print("Error: The dataset is empty.")
 		sys.exit(1)
 
 	return mileages, prices
@@ -31,7 +31,7 @@ def train(mileages, prices, learning_rate, epochs):
 	max_km = max(mileages)
 
 	if max_km == min_km:
-		print("Erreur : tous les kilométrages sont identiques.")
+		print("Error: All mileage values are identical.")
 		sys.exit(1)
 
 	norm_mileages = [(x - min_km) / (max_km - min_km) for x in mileages]
@@ -39,7 +39,7 @@ def train(mileages, prices, learning_rate, epochs):
 	theta0 = 0.0
 	theta1 = 0.0
 
-	print(f"Début de l'entraînement ({epochs} itérations, learning rate = {learning_rate})...")
+	print(f"Starting training ({epochs} iterations, learning rate = {learning_rate})...")
 
 	for _ in range(epochs):
 		sum_errors_0 = 0.0
@@ -66,16 +66,16 @@ def save_thetas(theta0, theta1, filepath='thetas.csv'):
 	try:
 		with open(filepath, mode='w', encoding='utf-8') as f:
 			f.write(f"{theta0},{theta1}\n")
-		print(f"Paramètres sauvegardés avec succès dans '{filepath}'.")
+		print(f"Parameters successfully saved to '{filepath}'.")
 	except Exception as e:
-		print(f"Erreur lors de la sauvegarde : {e}")
+		print(f"Error saving parameters: {e}")
 
 def main():
 	mileages, prices = load_data('data.csv')
 	theta0, theta1 = train(mileages, prices, 0.1, 10000)
-	print(f"\nRésultats de l'entraînement :")
-	print(f"  theta0 (ordonnée à l'origine) : {theta0:.4f}")
-	print(f"  theta1 (pente)                : {theta1:.6f}")
+	print("\nTraining results:")
+	print(f"  theta0 (intercept) : {theta0:.4f}")
+	print(f"  theta1 (slope)     : {theta1:.6f}")
 	save_thetas(theta0, theta1)
 
 if __name__ == '__main__':

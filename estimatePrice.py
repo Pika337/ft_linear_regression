@@ -8,7 +8,7 @@ def load_thetas(filepath='thetas.csv'):
 	except FileNotFoundError:
 		pass
 	except Exception as e:
-		print(f"Avertissement lors de la lecture des thetas : {e}")
+		print(f"Warning while reading thetas: {e}")
 
 	return 0.0, 0.0
 
@@ -19,29 +19,29 @@ def main():
 	theta0, theta1 = load_thetas('thetas.csv')
 
 	try:
-		user_input = input("Entrez le kilométrage d'un véhicule : ").strip()
+		user_input = input("Enter a vehicle mileage: ").strip()
 		if not user_input:
-			print("Erreur : aucun kilométrage renseigné.")
+			print("Error: No mileage provided.")
 			return
 
 		mileage = float(user_input)
 		if mileage < 0:
-			print("Erreur : un kilométrage ne peut pas être négatif.")
+			print("Error: Mileage cannot be negative.")
 			return
 
 		price = estimate_price(mileage, theta0, theta1)
 
 		if theta0 == 0.0 and theta1 == 0.0:
-			print(f"Modèle non entraîné (theta0 = 0, theta1 = 0).")
-			print(f"Prix estimé : 0.0 €")
+			print("Model not trained (theta0 = 0, theta1 = 0).")
+			print("Estimated price: 0.0 €")
 		else:
 			estimated = max(0.0, price)
-			print(f"Prix estimé pour {mileage:,.0f} km : {estimated:.2f} €")
+			print(f"Estimated price for {mileage:,.0f} km: {estimated:.2f} €")
 
 	except ValueError:
-		print("Erreur : veuillez entrer un nombre valide.")
+		print("Error: Please enter a valid number.")
 	except (KeyboardInterrupt, EOFError):
-		print("\nProgramme interrompu.")
+		print("\nProgram interrupted.")
 
 if __name__ == '__main__':
 	main()

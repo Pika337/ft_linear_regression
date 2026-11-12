@@ -14,14 +14,14 @@ def load_data(filepath='data.csv'):
 					mileages.append(float(row[0]))
 					prices.append(float(row[1]))
 	except FileNotFoundError:
-		print(f"Erreur : le fichier '{filepath}' est introuvable.")
+		print(f"Error: File '{filepath}' not found.")
 		sys.exit(1)
 	except Exception as e:
-		print(f"Erreur lors de la lecture de '{filepath}' : {e}")
+		print(f"Error reading '{filepath}': {e}")
 		sys.exit(1)
 
 	if not mileages:
-		print("Erreur : le dataset est vide.")
+		print("Error: The dataset is empty.")
 		sys.exit(1)
 
 	return mileages, prices
@@ -36,20 +36,20 @@ def load_thetas(filepath='thetas.csv'):
 	except FileNotFoundError:
 		pass
 	except Exception as e:
-		print(f"Avertissement lors de la lecture des thetas : {e}")
+		print(f"Warning while reading thetas: {e}")
 
 	return 0.0, 0.0
 
 
 def graph(mileages, prices, theta0, theta1):
 	plt.title("Linear Regression: Price vs Mileage")
-	plt.xlabel("Kilométrage (km)")
-	plt.ylabel("Prix (€)")
-	plt.scatter(mileages, prices, color='red', marker='x', label="Données réelles")
+	plt.xlabel("Mileage (km)")
+	plt.ylabel("Price (€)")
+	plt.scatter(mileages, prices, color='red', marker='x', label="Actual data")
 	line_x = [min(mileages), max(mileages)]
 	line_y = [theta0 + (theta1 * x) for x in line_x]
 
-	plt.plot(line_x, line_y, color='black', label="Droite de régression")
+	plt.plot(line_x, line_y, color='black', label="Regression line")
 	plt.legend()
 	plt.grid(True)
 	plt.show()
